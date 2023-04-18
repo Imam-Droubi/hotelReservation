@@ -20,4 +20,5 @@ router.get("/:id" ,getHotel);
 router.get("/" , getAllHotels);
 
 
+
 export default router;

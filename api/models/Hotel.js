@@ -44,10 +44,6 @@ const HotelSchema = new mongoose.Schema({
     type: Number,
     required:true,
   },
-  highestPrice:{
-    type: Number,
-    required:true,
-  },
   featured:{
     type : Boolean,
     default : false,

@@ -44,8 +44,21 @@ export const getHotel = async(req,res,next)=>{
 
 //GET ALL HOTELS
 export const getAllHotels = async(req,res,next)=>{
+  let {min,max,destination} = req.query ;
+  if(min && min === "undefined")min= null;
+  if(max && max=== "undefined")max= null;
+  if(destination && destination == "undefined")destination=  null;
+  const query={}
+  if(min && max){
+    query.cheapestPrice = {$gte:min , $lte:max}
+  }else if(min){
+    query.cheapestPrice = {$gte:min}
+  }else if(max){
+    query.cheapestPrice = {$lte:max}
+  }
+  if(destination)query.city = destination;
   try{
-    const allHotels = await Hotel.find();
+    const allHotels = await Hotel.find(query);
     res.status(200).json(allHotels);
   }catch(err){
     return next(err);
