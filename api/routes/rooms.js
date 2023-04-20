@@ -1,5 +1,5 @@
 import express from "express";
-import { createRoom, deleteRoom, getAllRooms, getRoom, updateRoom } from "../controllers/roomController.js";
+import { createRoom, deleteRoom, getAllRooms, getRoom, reserveRoom, updateRoom } from "../controllers/roomController.js";
 import { verifyAdmin } from "../utils/verify.js";
 const router =express.Router();
 
@@ -17,5 +17,8 @@ router.get("/:id" ,getRoom);
 
 // GET ALL ROOMS 
 router.get("/" , getAllRooms);
+
+// RESERV A ROOM 
+router.post("/reserve/:id" , reserveRoom);
 
 export default router;

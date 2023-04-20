@@ -1,4 +1,5 @@
 import Hotel from "../models/Hotel.js";
+import Room from "../models/Room.js";
 
 
 //CREATE NEW HOTEL
@@ -56,7 +57,11 @@ export const getAllHotels = async(req,res,next)=>{
   }else if(max){
     query.cheapestPrice = {$lte:max}
   }
-  if(destination)query.city = destination;
+  if(destination){
+    let newD = destination.toLowerCase();
+    destination = newD[0].toUpperCase() + newD.slice(1);
+    query.city = destination;
+  }
   try{
     const allHotels = await Hotel.find(query);
     res.status(200).json(allHotels);
@@ -64,3 +69,17 @@ export const getAllHotels = async(req,res,next)=>{
     return next(err);
   }
 };
+
+
+// GET HOTEL ROOMS 
+export const getHotelRooms = async (req,res,next) =>{
+  try{
+    const hotel = await Hotel.findById(req.params.id);
+    const list = await Promise.all(hotel.rooms.map(room=>{
+      return Room.findById(room);
+    }));
+    res.status(200).json(list);
+  }catch(err){
+    next(err);
+  }
+}
