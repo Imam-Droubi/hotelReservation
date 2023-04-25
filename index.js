@@ -8,8 +8,11 @@ import roomsRoute from "./routes/rooms.js";
 import reservationRouter from "./routes/reservation.js"
 import cookieParser from "cookie-parser";
 import { verifyAdmin, verifyToken, verifyUser } from "./utils/verify.js";
+import cors from "cors"
+const PORT = process.env.PORT || 4000;
 const app = express();
 dotenv.config(); 
+
 
 // CONNECTING TO MONGO DB
 const connect = async ()=>{
@@ -30,7 +33,11 @@ mongoose.connection.on("disconnected" , ()=>{
 app.use(express.json());
 app.use(cookieParser());
 
-
+const allowedOrigins = ["https://hotel-reservation-swp.onrender.com"];
+app.use(cors({
+  credentials : true,
+  origin : allowedOrigins,
+}))
 
 app.use("/api/auth" , authRoute);
 app.use("/api/hotels" , hotelsRoute);
@@ -52,7 +59,7 @@ app.use((err,req,res,next)=>{
 
 
 
-app.listen(4000, ()=>{
-  connect();
-  console.log("Connected to Backend!")
+app.listen(PORT, ()=>{
+  connect(); 
+  console.log(`Connected to Backend on port ${PORT}`)
 })

@@ -41,3 +41,14 @@ export const getAllUsers = async(req,res,next)=>{
     return next(err);
   }
 };
+
+// CHECK ADMIN 
+export const checkAdmin  = async(req,res,next)=>{
+  try{
+    const user = await User.findById(req.params.id);
+    if(user.isAdmin)res.status(200).json("YES")
+    else res.status(200).json("NO");
+  }catch(err){
+    return next(err);
+  }
+} 

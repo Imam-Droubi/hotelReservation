@@ -19,7 +19,7 @@ export const register = async(req,res,next)=>{
   }
 };
 
-// LOGIN 
+// LOGIN  
 export const login = async (req,res,next)=>{
   try{
     // Check Existance 
@@ -28,14 +28,15 @@ export const login = async (req,res,next)=>{
     // Check Coorectness 
     const isPasswordCoorect = await bcrypt.compare(req.body.password , user.password);
     if(!isPasswordCoorect) return next(createError(400 , "Wrong password or email!"));
-    const {password , isAdmin , ...otherDetails} = user._doc;
+    const {password , isAdmin , ...otherDetails} = user._doc; 
 
     const token = jwt.sign({id: user._id , isAdmin: user.isAdmin} , process.env.JWT_SECRET);
     res.cookie("access_token" , token, {
       httpOnly :true,
+      secure : true,
     }).status(200).json({...otherDetails});
 
   }catch(err){
     return next(err);
   }
-};
+}; 
