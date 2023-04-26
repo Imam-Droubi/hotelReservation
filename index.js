@@ -13,7 +13,15 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 dotenv.config(); 
 
-
+const allowedOrigins = ["https://hotel-reservation-swp.onrender.com"];
+app.use(cors({
+  credentials : true,
+  origin : allowedOrigins,
+}))
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 // CONNECTING TO MONGO DB
 const connect = async ()=>{
   try {
@@ -33,11 +41,7 @@ mongoose.connection.on("disconnected" , ()=>{
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = ["https://hotel-reservation-swp.onrender.com"];
-app.use(cors({
-  credentials : true,
-  origin : allowedOrigins,
-}))
+
 
 app.use("/api/auth" , authRoute);
 app.use("/api/hotels" , hotelsRoute);

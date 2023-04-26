@@ -4,15 +4,15 @@ import { verifyAdmin, verifyUser } from "../utils/verify.js";
 const router =express.Router();
 
 // CREATE NEW RESERVATION
-router.post("/",verifyUser ,createReservation);
+router.post("/" ,createReservation);
 
 // DELETE RESERVATION
-router.delete("/:id" ,verifyUser ,deleteReservation);
+router.delete("/:id" ,deleteReservation);
 
 // GET A RESERVATION 
-router.get("/:id" ,verifyUser,getReservation);
+router.get("/:id" ,getReservation);
 
 // GET ALL RESERVATIONS FOR SOME USER
-router.get("/user/:id" ,verifyUser,getAllReservations);
+router.get("/user/:id" ,getAllReservations);
 
 export default router;
